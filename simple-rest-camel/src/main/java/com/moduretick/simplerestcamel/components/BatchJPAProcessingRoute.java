@@ -5,6 +5,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
 import com.moduretick.simplerestcamel.entity.NameAddress;
+import com.moduretick.simplerestcamel.processors.InboundMessageProcessor;
 
 @Component
 public class BatchJPAProcessingRoute extends RouteBuilder {
@@ -14,7 +15,15 @@ public class BatchJPAProcessingRoute extends RouteBuilder {
 		from("timer:readDB?period=10000")
 		.routeId("readDBId")
 		.to("jpa:"+ NameAddress.class.getName()+"?namedQuery=fetchAllRows")
-		.log(LoggingLevel.INFO, "Fetched Rows: ${body}");
+		.split(body())
+		.log(LoggingLevel.INFO, "Fetched Rows: ${body}")
+		.process(new InboundMessageProcessor())
+		.log(LoggingLevel.INFO, "Transformed Body: ${body}")
+		.convertBodyTo(String.class)
+		.to("file:src/data/output?fileName=outputFileBatch.csv&fileExist=append&appendChars=\\n")
+		.toD("jpa:" + NameAddress.class.getName()
+				+"?nativeQuery= DELETE FROM NAME_ADDRESS WHERE id = ${header.consumedId}&useExecuteUpdate=true")
+		.end();
 	}
 
 }
