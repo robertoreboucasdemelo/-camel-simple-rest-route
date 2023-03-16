@@ -5,7 +5,7 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.stereotype.Component;
 
-import com.moduretick.simplerestcamel.beans.NameAddress;
+import com.moduretick.simplerestcamel.entity.NameAddress;
 import com.moduretick.simplerestcamel.processors.InboundMessageProcessor;
 
 @Component
@@ -28,10 +28,7 @@ public class RestRoute extends RouteBuilder {
 		.to("direct:process");
 		
 		from("direct:process").routeId("processMessageRouteId")
-		.process(new InboundMessageProcessor())
-		.log(LoggingLevel.INFO, "Transformed Body: ${body}")
-		.convertBodyTo(String.class)
-		.to("file:src/data/output?fileName=outputFile.csv&fileExist=append&appendChars=\\n");
+		.to("jpa:"+ NameAddress.class.getName());
 	}
 
 }

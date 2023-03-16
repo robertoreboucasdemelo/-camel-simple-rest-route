@@ -5,8 +5,8 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.moduretick.simplerestcamel.beans.NameAddress;
 import com.moduretick.simplerestcamel.beans.OutboundNameAddress;
+import com.moduretick.simplerestcamel.entity.NameAddress;
 
 public class InboundMessageProcessor implements Processor {
 	

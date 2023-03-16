@@ -1,19 +1,38 @@
-package com.moduretick.simplerestcamel.beans;
+package com.moduretick.simplerestcamel.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
+@Entity
+@Table(name = "name_address")
 @CsvRecord(separator = ";")
 public class NameAddress {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	@DataField(pos = 1, columnName = "name")
 	private String name;
+	
+	@Column(name = "house_number")
 	@DataField(pos = 2, columnName = "house_number")
 	private String houseNumber;
+	
 	@DataField(pos = 3, columnName = "city")
 	private String city;
+	
 	@DataField(pos = 4, columnName = "province")
 	private String province;
+	
+	@Column(name = "postal_code")
 	@DataField(pos = 5, columnName = "postal_code")
 	private String postalCode;
 	

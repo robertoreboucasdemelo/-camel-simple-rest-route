@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.moduretick.simplerestcamel.beans.NameAddress;
+import com.moduretick.simplerestcamel.entity.NameAddress;
 import com.moduretick.simplerestcamel.processors.InboundMessageProcessor;
 
 @Component
